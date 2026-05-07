@@ -368,6 +368,10 @@ button:disabled {
   grid-template-columns: minmax(190px, 1.2fr) repeat(4, minmax(140px, 1fr)) auto;
 }
 
+.date-time-row {
+  grid-column: span 2;
+}
+
 .form label {
   display: grid;
   gap: 6px;
@@ -400,6 +404,11 @@ button:disabled {
   display: grid;
   grid-template-columns: 1fr 0.72fr;
   gap: 8px;
+}
+
+.date-time-inputs input {
+  min-width: 0;
+  width: 100%;
 }
 
 .table-shell {

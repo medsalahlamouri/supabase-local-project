@@ -2,7 +2,7 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-ARG VITE_SUPABASE_URL=http://localhost:8000
+ARG VITE_SUPABASE_URL=http://localhost:8480
 ARG VITE_SUPABASE_ANON_KEY=your_anon_key_here
 
 ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
