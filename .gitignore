@@ -1,0 +1,44 @@
+# Environment Variables
+.env
+.env.*.local
+
+# Dependencies & Build Outputs
+node_modules/
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Runtime Data (Supabase Docker)
+supabase\ docker/volumes/db/data/
+supabase\ docker/volumes/storage/
+supabase\ docker/volumes/logs/
+supabase\ docker/volumes/snippets/*.sql
+!supabase\ docker/volumes/snippets/.gitkeep
+supabase\ docker/test.http
+supabase\ docker/docker-compose.override.yml
+
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Package Manager Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# OS Files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.switches
