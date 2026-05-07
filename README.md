@@ -1,75 +1,75 @@
 # Clinic Pro
 
-Application de gestion de patients et consultations médicales.
+Patient and consultation management application.
 
-## À propos
+## About
 
-**Clinic Pro** est une application CRUD pour les patients et consultations, construite avec:
-- **Frontend**: React 18, TypeScript, Vite, Caddy
-- **Backend**: Supabase (local), PostgreSQL, PostgREST
-- **Architecture**: Docker Compose pour l'environnement de développement complet
+Clinic Pro is a CRUD application for managing patients and consultations, built with:
+- Frontend: React 18, TypeScript, Vite, Caddy
+- Backend: Local Supabase, PostgreSQL, PostgREST
+- Architecture: Docker Compose for the full development environment
 
-### Fonctionnalités
+### Features
 
-✅ Gestion des patients (Créer, Lire, Mettre à jour, Supprimer)  
-✅ Gestion des consultations (Créer, Lire, Mettre à jour, Supprimer)  
-✅ Tableau de bord avec métriques  
-✅ Recherche globale  
-✅ Authentification Supabase local  
-✅ Interface réactive avec React  
+- Patient management (Create, Read, Update, Delete)
+- Consultation management (Create, Read, Update, Delete)
+- Dashboard with metrics
+- Global search
+- Local Supabase authentication
+- Responsive UI built with React
 
 ---
 
-## Configuration & Initialisation
+## Setup & Initialization
 
-### 1. Prérequis
-- Docker et Docker Compose installés
-- Node.js 22+ (pour développement local)
-- npm ou yarn
+### 1. Prerequisites
+- Docker and Docker Compose installed
+- Node.js 22+ (for local development)
+- npm or yarn
 
-### 2. Structure du projet
+### 2. Project structure
 ```
-├── frontend/           # Application React
+├── frontend/           # React application
 │   ├── src/
 │   ├── Dockerfile
 │   ├── package.json
 │   └── .env
 │
-├── docker/             # Configuration Supabase local
+├── docker/             # Local Supabase configuration
 │   ├── docker-compose.yml
 │   └── volumes/
 │
 └── README.md
 ```
 
-### 3. Démarrer l'application complète
+### 3. Start the full application
 
-Depuis le dossier `docker/`:
+From the `docker/` directory:
 
 ```bash
 cd docker
 docker compose up -d
 ```
 
-Cela va:
-- ✅ Construire l'image du frontend (React)
-- ✅ Démarrer la base de données PostgreSQL
-- ✅ Lancer le gateway API (Kong)
-- ✅ Initialiser l'authentification Supabase
-- ✅ Exposer l'application sur http://localhost:3000
+This will:
+- Build the frontend image (React)
+- Start the PostgreSQL database
+- Launch the API gateway (Kong)
+- Initialize Supabase authentication
+- Expose the application at http://localhost:3000
 
-### 4. Accès à l'application
+### 4. Accessing the application
 
 | Service | URL |
 |---------|-----|
-| **Frontend (App)** | http://localhost:3000 |
-| **Supabase Studio** | http://localhost:8000 |
-| **API Kong** | http://localhost:8480 |
-| **Base de données** | localhost:5432 |
+| Frontend (App) | http://localhost:3000 |
+| Supabase Studio | http://localhost:8000 |
+| API Kong | http://localhost:8480 |
+| Database | localhost:5432 |
 
-### 5. Variables d'environnement
+### 5. Environment variables
 
-Le fichier `frontend/.env` doit contenir:
+The `frontend/.env` file should contain:
 
 ```env
 VITE_SUPABASE_URL=http://kong:8000
@@ -78,111 +78,111 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6
 
 ---
 
-## Commandes utiles
+## Useful commands
 
-### Gestion des conteneurs
+### Managing containers
 
 ```bash
-# Démarrer la stack
+# Start the stack
 docker compose up -d
 
-# Arrêter la stack
+# Stop the stack
 docker compose down
 
-# Voir les logs
+# Follow frontend logs
 docker compose logs -f frontend
 
-# Reconstruire après modification du frontend
+# Rebuild after frontend changes
 docker compose up -d --build frontend
 
-# Status des conteneurs
+# Container status
 docker compose ps
 ```
 
-### Développement frontend local
+### Local frontend development
 
 ```bash
 cd frontend
 npm install
-npm run dev          # Mode développement (http://localhost:5173)
-npm run build        # Build production
-npm run typecheck    # Vérifier les types TypeScript
+npm run dev          # Development mode (http://localhost:5173)
+npm run build        # Production build
+npm run typecheck    # Run TypeScript type checks
 ```
 
 ---
 
-## Structure des données
+## Data model
 
 ### Table: Patients
-- `id`: UUID (identifiant unique)
-- `full_name`: Nom complet
-- `cid`: Numéro d'identification
-- `birth_date`: Date de naissance
-- `town`: Ville
-- `created_at`: Date de création
+- `id`: UUID (unique identifier)
+- `full_name`: Full name
+- `cid`: Identification number
+- `birth_date`: Birth date
+- `town`: Town/city
+- `created_at`: Creation timestamp
 
 ### Table: Consultations
-- `id`: UUID (identifiant unique)
-- `patient_id`: Référence au patient
-- `appointment_date_date`: Date du rendez-vous
-- `appointment_date_time`: Heure du rendez-vous
-- `status`: Statut (planifiée, terminée, annulée)
-- `reason`: Raison de la consultation
-- `notes`: Notes médicales
-- `created_at`: Date de création
+- `id`: UUID (unique identifier)
+- `patient_id`: Reference to the patient
+- `appointment_date_date`: Appointment date
+- `appointment_date_time`: Appointment time
+- `status`: Status (scheduled, completed, canceled)
+- `reason`: Reason for the consultation
+- `notes`: Medical notes
+- `created_at`: Creation timestamp
 
 ---
 
-## Dépannage
+## Troubleshooting
 
-### Le frontend ne peut pas se connecter à l'API
+### Frontend cannot connect to the API
 
-**Cause**: Le frontend est dans un conteneur Docker et ne peut pas accéder à `localhost`
+Cause: The frontend runs inside a Docker container and cannot reach `localhost` on the host.
 
-**Solution**: Utilisez le nom du service Docker (`kong:8000`) à la place de `localhost:8480`
+Solution: Use the Docker service name (`kong:8000`) instead of `localhost:8480`.
 
-### Erreur de port déjà utilisé
+### Port already in use
 
-Vérifiez les ports occupés:
+Check for processes using the port:
 ```bash
 netstat -ano | findstr ":3000"  # Windows
 lsof -i :3000                   # Mac/Linux
 ```
 
-### Les données persistent après redémarrage
+### Data persists after restart
 
-Les données sont stockées dans `docker/volumes/db/data` et persistent après `docker compose down`. Pour tout réinitialiser:
+Data is stored in `docker/volumes/db/data` and persists after `docker compose down`. To reset everything:
 
 ```bash
-docker compose down -v          # Supprime les volumes
-docker compose up -d            # Redémarre tout
+docker compose down -v          # Remove volumes
+docker compose up -d            # Restart everything
 ```
 
 ---
 
-## Stack technologique
+## Tech stack
 
 ### Frontend
-- **React 18**: UI framework
-- **TypeScript**: Typage statique
-- **Vite 5**: Build tool
-- **Supabase JS**: Client Supabase
-- **CSS Grid**: Layout responsive
+- React 18: UI framework
+- TypeScript: Static typing
+- Vite 5: Build tool
+- Supabase JS: Supabase client
+- CSS Grid: Responsive layout
 
 ### Backend
-- **PostgreSQL 15**: Base de données
-- **PostgREST 14**: API REST automatique
-- **Kong 3.9**: API Gateway
-- **GoTrue**: Authentification JWT
-- **Realtime**: WebSocket en temps réel
+- PostgreSQL 15: Database
+- PostgREST 14: Automatic REST API
+- Kong 3.9: API Gateway
+- GoTrue: JWT authentication
+- Realtime: WebSocket realtime service
 
 ### DevOps
-- **Docker Compose**: Orchestration locale
-- **Caddy**: Web server et reverse proxy
-- **Node 22 Alpine**: Runtime léger
+- Docker Compose: Local orchestration
+- Caddy: Web server and reverse proxy
+- Node 22 Alpine: Lightweight runtime
 
 ---
 
-## Licence
+## License
 
 MIT
